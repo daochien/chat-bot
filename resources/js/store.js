@@ -10,6 +10,10 @@ export default {
         auth_error: null,
         customers: []
     },
+    /**
+     * getters chua cac function tra ve cac gia tri trong state, de component co the gọi trực tiếp thông 
+     * qua cac funtion này
+     */
     getters: {
         welcome(state){
             return state.welcomeMessage;
@@ -30,11 +34,14 @@ export default {
             return state.customers;
         },
     },
+    /**
+     * thay doi trang thai cac gia tri trong state
+     */
     mutations: {
         login(state) {
             state.loading = true;
             state.auth_error = null;
-        },
+        }, 
         loginSuccess(state, payload) {
             state.auth_error = null;
             state.isLoggedIn = true;
@@ -43,7 +50,7 @@ export default {
 
             localStorage.setItem("user", JSON.stringify(state.currentUser));
         },
-        loginFailed(state) {
+        loginFailed(state, payload) {
             state.loading = false;
             state.auth_error = payload.error;
         },
@@ -53,9 +60,16 @@ export default {
             state.currentUser = null;
         }
     },
+    /**
+     * Actions goi toi cac function trong mutations
+     */
     actions: {
         login(context) {
-            context.commit('login');
-        }
+            context.commit('login'); 
+        },
+        // loginSuccess(context, data) {
+        //     console.log(data);
+        //     context.commit('loginSuccess', data);
+        // }
     }
 }

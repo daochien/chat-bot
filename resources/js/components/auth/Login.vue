@@ -18,6 +18,11 @@
                         <div class="form-group row">
                             <input type="submit" value="Login">
                         </div>
+                        <div class="form-group row" v-if="authError">
+                            <p class="error">
+                                {{ authError }}
+                            </p>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -39,22 +44,31 @@ export default {
     },
     methods: {
         authenticate() {
-            this.$store.dispatch('login');
+            this.$store.dispatch('login'); // goi toi action trong store.js
 
             login(this.form)
                 .then((res) => {
-                    this.$store.commit('loginSuccess', res);
+                    this.$store.commit('loginSuccess', res); // gọi trực tiếp tới mutations
+                    //this.$store.dispatch('loginSuccess', res);
                     this.$router.push({path: '/'});
                 })
                 .catch((error) => {
                     this.$store.commit('loginFailed', {error});
                 })
         }
+    },
+    computed: {
+        authError() {
+            return this.$store.getters.authError;
+        }
     }
 }
 </script>
 <style scoped>
-
+.error{
+    text-align: center;
+    color: red;
+}
 </style>
 
 
